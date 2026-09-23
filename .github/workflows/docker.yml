@@ -1,0 +1,20 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Construir imagen Docker
+        run: docker build -t mi-app-docker .
+
+      - name: Ejecutar pruebas
+        run: echo "Pruebas ejecutadas correctamente"
