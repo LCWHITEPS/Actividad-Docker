@@ -19,16 +19,30 @@ jobs:
       - name: Ejecutar contenedor
         run: docker run -d -p 3000:3000 --name actividad-docker actividad-docker
 
-      - name: Mostrar salida
+      - name: Esperar al servidor
+        run: sleep 3
+
+      - name: Mostrar salida de Docker
         run: |
           echo "## 🐳 Salida de Docker" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo '```text' >> $GITHUB_STEP_SUMMARY
-          docker logs actividad-docker >> $GITHUB_STEP_SUMMARY
+          docker logs actividad-docker 2>&1 >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Probar aplicación
+        run: |
+          echo "## 🌐 Respuesta de la aplicación" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
+          curl http://localhost:3000
+          echo "" 
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Ver contenedor
         run: |
           echo "## 📦 Contenedor" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
           docker ps -a >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
