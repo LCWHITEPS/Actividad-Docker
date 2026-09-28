@@ -32,11 +32,12 @@ jobs:
 
       - name: Probar aplicación
         run: |
+          respuesta=$(curl -s http://localhost:3000)
+
           echo "## 🌐 Respuesta de la aplicación" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo '```text' >> $GITHUB_STEP_SUMMARY
-          curl http://localhost:3000
-          echo "" 
+          echo "$respuesta" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Ver contenedor
