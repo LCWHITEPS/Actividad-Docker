@@ -6,15 +6,29 @@ on:
       - main
 
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar código
+      - name: Descargar repositorio
         uses: actions/checkout@v4
 
       - name: Construir imagen Docker
-        run: docker build -t mi-app-docker .
+        run: docker build -t actividad-docker .
 
-      - name: Ejecutar pruebas
-        run: echo "Pruebas ejecutadas correctamente"
+      - name: Ejecutar contenedor
+        run: docker run -d -p 3000:3000 --name actividad-docker actividad-docker
+
+      - name: Mostrar salida
+        run: |
+          echo "## 🐳 Salida de Docker" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
+          docker logs actividad-docker >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Ver contenedor
+        run: |
+          echo "## 📦 Contenedor" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          docker ps -a >> $GITHUB_STEP_SUMMARY
