@@ -13,8 +13,22 @@ jobs:
       - name: Descargar repositorio
         uses: actions/checkout@v4
 
+      - name: Información del Workflow
+        run: |
+          echo "# 🐳 Docker" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Workflow:** Docker" >> $GITHUB_STEP_SUMMARY
+          echo "**Rama:** main" >> $GITHUB_STEP_SUMMARY
+          echo "**Sistema:** Ubuntu" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
       - name: Ejecutar Docker Bake
-        run: docker buildx bake
+        run: |
+          echo "## 🔨 Salida de Docker Bake" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
+          docker buildx bake --print >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Construir imagen Docker
         run: docker build -t actividad-docker .
